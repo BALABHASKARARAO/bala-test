@@ -19,4 +19,7 @@ steps:
     npm install
     #npm run build
     npm run test -- --coverage . --watchAll=false
+    sonar-scanner \
+  -Dsonar.projectKey=React-SonarQube \
+  -Dsonar.login=1ea7803c9fed295232eb82644f9068bc76b36725
   displayName: 'npm install , testbuild'
