@@ -1,13 +1,10 @@
-# Node.js
-# Build a general Node.js project with npm.
-# Add steps that analyze code, save build artifacts, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
-
 trigger:
-- master
+  branches:
+    include:
+    - main
 
 pool:
-  vmImage: ubuntu-latest
+  vmImage: 'ubuntu-latest'
 
 steps:
 - task: NodeTool@0
@@ -17,9 +14,34 @@ steps:
 
 - script: |
     npm install
-    #npm run build
+    npm run build
+    #npm run test:coverage
     npm run test -- --coverage . --watchAll=false
-    #npm install -D jest-sonar-reporter sonarqube-scanner
-    #npm run test -- --coverage . --watchAll=false
-    npx sonar-scanner -Dsonar.organization=balabhaskararaog -Dsonar.projectKey=React-SonarQube -Dsonar.login=1ea7803c9fed295232eb82644f9068bc76b36725
-  displayName: 'npm install , testbuild'
+  workingDirectory: $(System.DefaultWorkingDirectory)
+  displayName: 'Install dependencies, build and run tests'
+
+- task: SonarCloudPrepare@1
+  inputs:
+    SonarCloud: 'bala-sonarcloud-connection'
+    organization: 'balabhaskararaog'
+    scannerMode: 'CLI'
+    configMode: 'manual'
+    cliProjectKey: 'React-SonarQube-2'
+    cliProjectName: 'React-SonarQube-2'
+    cliSources: 'src'
+  displayName: 'Prepare analysis on SonarCloud'
+
+- script: |
+    npx sonar-scanner -Dsonar.organization=balabhaskararaog -Dsonar.projectKey=React-SonarQube-2
+    #npm install -g sonarqube-scanner
+    #sonar-scanner
+  workingDirectory: $(System.DefaultWorkingDirectory)
+  displayName: 'Run SonarCloud analysis'
+
+- task: SonarCloudAnalyze@1
+  displayName: 'Analyze SonarCloud results'
+
+- task: SonarCloudPublish@1
+  inputs:
+    pollingTimeoutSec: '300'
+  displayName: 'Publish SonarCloud results'
