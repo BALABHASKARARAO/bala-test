@@ -21,5 +21,5 @@ steps:
     npm run test -- --coverage . --watchAll=false
     #npm install -D jest-sonar-reporter sonarqube-scanner
     #npm run test -- --coverage . --watchAll=false
-    npm sonar-scanner -Dsonar.organization=balabhaskararaog -Dsonar.projectKey=React-SonarQube -Dsonar.login=1ea7803c9fed295232eb82644f9068bc76b36725
+    npx sonar-scanner -Dsonar.organization=balabhaskararaog -Dsonar.projectKey=React-SonarQube -Dsonar.login=1ea7803c9fed295232eb82644f9068bc76b36725
   displayName: 'npm install , testbuild'
