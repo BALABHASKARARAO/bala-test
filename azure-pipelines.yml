@@ -31,12 +31,12 @@ steps:
     cliSources: 'src'
   displayName: 'Prepare analysis on SonarCloud'
 
-- script: |
-    npx sonar-scanner -Dsonar.organization=balabhaskararaog -Dsonar.projectKey=React-SonarQube-2
+#- script: |
+#    npx sonar-scanner -Dsonar.organization=balabhaskararaog -Dsonar.projectKey=React-SonarQube-2
     #npm install -g sonarqube-scanner
     #sonar-scanner
-  workingDirectory: $(System.DefaultWorkingDirectory)
-  displayName: 'Run SonarCloud analysis'
+#  workingDirectory: $(System.DefaultWorkingDirectory)
+#  displayName: 'Run SonarCloud analysis'
 
 - task: SonarCloudAnalyze@1
   displayName: 'Analyze SonarCloud results'
