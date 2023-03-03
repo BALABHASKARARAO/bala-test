@@ -1,0 +1,8 @@
+steps:
+- task: Npm@1
+  displayName: 'npm test'
+  inputs:
+    command: custom
+    workingDir: '$(System.DefaultWorkingDirectory)/src'
+    verbose: false
+    customCommand: 'run test'
